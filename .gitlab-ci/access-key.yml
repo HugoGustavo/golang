@@ -1,0 +1,64 @@
+image: docker:latest
+
+include:
+  - '/.gitlab-ci/docker-service.yml'
+  - '/.gitlab-ci/before-script.yml'
+
+stages:
+  - activate
+  - create
+  - deactivate
+  - delete
+
+activate:
+  stage: activate
+  needs: []
+  variables:
+    TS_MANAGEMENT_ACTION: Access Key - Activate
+  script:
+    - cd terrashell/src && go run ./main.go && cd ../..
+  artifacts:
+    paths:
+      - ./accessKey.csv
+    expire_in: 1 day
+  when: manual
+
+create:
+  stage: create
+  needs: []
+  variables:
+    TS_MANAGEMENT_ACTION: Access Key - Create
+  script:
+    - cd terrashell/src && go run ./main.go && cd ../..
+  artifacts:
+    paths:
+      - ./accessKey.csv
+    expire_in: 1 day
+  when: manual
+
+deactivate:
+  stage: deactivate
+  needs: []
+  variables:
+    TS_MANAGEMENT_ACTION: Access Key - Deactivate
+  script:
+    - cd terrashell/src && go run ./main.go && cd ../..
+  artifacts:
+    paths:
+      - ./accessKey.csv
+    expire_in: 1 day
+  when: manual
+
+delete:
+  stage: delete
+  needs: []
+  variables:
+    TS_MANAGEMENT_ACTION: Access Key - Delete
+  script:
+    - cd terrashell/src && go run ./main.go && cd ../..
+  artifacts:
+    paths:
+      - ./accessKey.csv
+    expire_in: 1 day
+  when: manual
+

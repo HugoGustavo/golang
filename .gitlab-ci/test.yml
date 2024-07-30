@@ -1,0 +1,21 @@
+image: docker:latest
+
+include:
+  - '/.gitlab-ci/docker-service.yml'
+  - '/.gitlab-ci/before-script.yml'
+
+stages:
+  - unit-test
+  - integration-test
+
+unit-test:
+  stage: unit-test
+  script:
+    - cd terratest && go test -failfast -test.short -v -timeout 30m && cd .. 
+    - cd terrashell/test && go test -failfast -test.short -v ./... -timeout 30m && cd ../.. 
+
+integration-test:
+  stage: integration-test
+  script:
+    - cd terratest && go test -failfast -v -timeout 30m && cd .. 
+    - cd terrashell/test && go test -failfast -v ./... -timeout 30m && cd ../..  

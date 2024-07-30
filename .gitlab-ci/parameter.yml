@@ -1,0 +1,49 @@
+image: docker:latest
+
+include:
+  - '/.gitlab-ci/docker-service.yml'
+  - '/.gitlab-ci/before-script.yml'
+
+stages:
+  - create
+  - delete
+  - update
+
+create:
+  stage: create
+  needs: []
+  variables:
+    TS_MANAGEMENT_ACTION: Parameter - Create
+  script:
+    - cd terrashell/src && go run ./main.go && cd ../..
+  artifacts:
+    paths:
+      - ./parameter.csv
+    expire_in: 1 day
+  when: manual
+
+delete:
+  stage: delete
+  needs: []
+  variables:
+    TS_MANAGEMENT_ACTION: Parameter - Delete
+  script:
+    - cd terrashell/src && go run ./main.go && cd ../..
+  artifacts:
+    paths:
+      - ./parameter.csv
+    expire_in: 1 day
+  when: manual
+
+update:
+  stage: update
+  needs: []
+  variables:
+    TS_MANAGEMENT_ACTION: Parameter - Update
+  script:
+    - cd terrashell/src && go run ./main.go && cd ../..
+  artifacts:
+    paths:
+      - ./parameter.csv
+    expire_in: 1 day
+  when: manual

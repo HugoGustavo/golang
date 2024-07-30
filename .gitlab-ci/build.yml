@@ -1,0 +1,13 @@
+image: docker:latest
+
+include:
+  - '/.gitlab-ci/docker-service.yml'
+  - '/.gitlab-ci/before-script.yml'
+
+stages:
+  - build
+
+build:
+  stage: build
+  script:
+    - cd terrashell/src && go build && cd ../..

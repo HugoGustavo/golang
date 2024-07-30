@@ -1,0 +1,5 @@
+# Services
+
+services:
+  - name: docker:dind # DO NOT REMOVE
+    alias: localhost 

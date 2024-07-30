@@ -1,0 +1,57 @@
+# Variables
+
+variables:
+  TS_MANAGEMENT_ACTION:
+    description: "Select the action to perform on pipeline"
+    value: "Access Key - Activate"
+    options:
+      - Access Key - Activate
+      - Access Key - Create
+      - Access Key - Deactivate
+      - Access Key - Delete
+      - Console Access - Enable
+      - Console Access - Disable
+      - Group - Add user
+      - Group - Remove user
+      - Parameter - Create
+      - Parameter - Delete
+      - Parameter - Update
+      - Password - Reset
+      - Secret - Create
+      - Secret - Add Key
+      - Secret - Remove Key
+      - Secret - Delete
+      - User - Create
+      - User - Deactivate
+
+  TS_ACCESS_KEY_ID:
+    value: "" # need be empty
+    description: "The access key id"
+
+  TS_USER_NAME:
+    value: "" # need be empty
+    description: "The user name"
+
+  TS_GROUP_NAME:
+    value: "" # need be empty
+    description: "The group name"
+
+  TS_PARAMETER_NAME:
+    value: "" # need be empty
+    description: "The parameter name"
+
+  TS_PARAMETER_VALUE:
+    value: "" # need be empty
+    description: "The parameter value"
+
+  TS_SECRET_NAME:
+    value: "" # need be empty
+    description: "The secret name"
+
+  TS_SECRET_KEY:
+    value: "" # need be empty
+    description: "The secret key"
+  
+  TS_SECRET_VALUE:
+    value: "" # need be empty
+    description: "The secret value"

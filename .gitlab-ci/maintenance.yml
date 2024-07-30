@@ -1,0 +1,21 @@
+image: docker:latest
+
+include:
+  - '/.gitlab-ci/docker-service.yml'
+  - '/.gitlab-ci/before-script.yml'
+
+stages:
+  - apply
+
+apply:
+  stage: apply
+  needs: []
+  variables:
+    TS_MANAGEMENT_ACTION: Maintenance - Apply
+  script:
+    - cd terrashell/src && go run ./main.go && cd ../..
+  artifacts:
+    paths:
+      - ./maintenance.csv
+    expire_in: 1 day
+  when: manual

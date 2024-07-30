@@ -1,0 +1,21 @@
+image: docker:latest
+
+include:
+  - '/.gitlab-ci/docker-service.yml'
+  - '/.gitlab-ci/before-script.yml'
+
+stages:
+  - upgrade
+
+upgrade:
+  stage: upgrade
+  needs: []
+  variables:
+    TS_MANAGEMENT_ACTION: Domain - Upgrade
+  script:
+    - cd terrashell/src && go run ./main.go && cd ../..
+  artifacts:
+    paths:
+      - ./domain.csv
+    expire_in: 1 day
+  when: manual

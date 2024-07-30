@@ -1,0 +1,35 @@
+image: docker:latest
+
+include:
+  - '/.gitlab-ci/docker-service.yml'
+  - '/.gitlab-ci/before-script.yml'
+
+stages:
+  - create
+  - deactivate
+
+create:
+  stage: create
+  needs: []
+  variables:
+    TS_MANAGEMENT_ACTION: User - Create
+  script:
+    - cd terrashell/src && go run ./main.go && cd ../..
+  artifacts:
+    paths:
+      - ./user.csv
+    expire_in: 1 day
+  when: manual
+
+deactivate:
+  stage: deactivate
+  needs: []
+  variables:
+    TS_MANAGEMENT_ACTION: User - Deactivate
+  script:
+    - cd terrashell/src && go run ./main.go && cd ../..
+  artifacts:
+    paths:
+      - ./user.csv
+    expire_in: 1 day
+  when: manual

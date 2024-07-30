@@ -1,0 +1,172 @@
+image: docker:latest
+
+include:
+  - '/.gitlab-ci/docker-service.yml'
+
+stages:
+  - Build
+  - Test
+  - Access Key
+  - Bucket
+  - Console Access
+  - Domain
+  - Group
+  - Maintenance
+  - Parameter
+  - Password
+  - Secret
+  - User
+
+Build:
+  stage: Build
+  needs: []
+  trigger:
+    strategy: depend
+    include:
+      - local: '/.gitlab-ci/build.yml'
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "web"
+      when: never
+    - when: on_success
+
+Test:
+  stage: Test
+  needs: ['Build']
+  trigger:
+    strategy: depend
+    include:
+      - local: '/.gitlab-ci/test.yml'
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "web"
+      when: never
+    - when: on_success
+
+Access Key:
+  stage: Access Key
+  needs: []
+  trigger:
+    include:
+      - local: '/.gitlab-ci/access-key.yml'
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+      when: never
+    - if: $CI_PIPELINE_SOURCE == "web"
+      when: on_success
+    - when: never
+  
+Bucket:
+  stage: Bucket
+  needs: []
+  trigger:
+    include:
+      - local: '/.gitlab-ci/bucket.yml'
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+      when: never
+    - if: $CI_PIPELINE_SOURCE == "web"
+      when: on_success
+    - when: never
+
+Domain:
+  stage: Domain
+  needs: []
+  trigger:
+    include:
+      - local: '/.gitlab-ci/domain.yml'
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+      when: never
+    - if: $CI_PIPELINE_SOURCE == "web"
+      when: on_success
+    - when: never
+
+Console Access:
+  stage: Console Access
+  needs: []
+  trigger:
+    include:
+      - local: '/.gitlab-ci/console-access.yml'
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+      when: never
+    - if: $CI_PIPELINE_SOURCE == "web"
+      when: on_success
+    - when: never
+
+Group:
+  stage: Group
+  needs: []
+  trigger:
+    include:
+      - local: '/.gitlab-ci/group.yml'
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+      when: never
+    - if: $CI_PIPELINE_SOURCE == "web"
+      when: on_success
+    - when: never
+
+Maintenance:
+  stage: Maintenance
+  needs: []
+  trigger:
+    include:
+      - local: '/.gitlab-ci/maintenance.yml'
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+      when: never
+    - if: $CI_PIPELINE_SOURCE == "web"
+      when: on_success
+    - when: never
+
+Parameter:
+  stage: Parameter
+  needs: []
+  trigger:
+    include:
+      - local: '/.gitlab-ci/parameter.yml'
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+      when: never
+    - if: $CI_PIPELINE_SOURCE == "web"
+      when: on_success
+    - when: never
+
+Password:
+  stage: Password
+  needs: []
+  trigger:
+    include:
+      - local: '/.gitlab-ci/password.yml'
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+      when: never
+    - if: $CI_PIPELINE_SOURCE == "web"
+      when: on_success
+    - when: never
+
+Secret:
+  stage: Secret
+  needs: []
+  trigger:
+    include:
+      - local: '/.gitlab-ci/secret.yml'
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+      when: never
+    - if: $CI_PIPELINE_SOURCE == "web"
+      when: on_success
+    - when: never
+
+User:
+  stage: User
+  needs: []
+  trigger:
+    include:
+      - local: '/.gitlab-ci/user.yml'
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+      when: never
+    - if: $CI_PIPELINE_SOURCE == "web"
+      when: on_success
+    - when: never

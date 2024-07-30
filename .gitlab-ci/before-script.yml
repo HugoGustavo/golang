@@ -1,0 +1,31 @@
+before_script:
+  # Docker configuration
+  - export DOCKER_HOST=tcp://localhost:2375/ > /dev/null 2>&1
+  - export DOCKER_TLS_CERTDIR="" > /dev/null 2>&1
+  # Install dependencies
+  - apk add --no-cache ca-certificates > /dev/null 2>&1
+  - apk add --no-cache wget > /dev/null 2>&1
+  - apk add --no-cache aws-cli > /dev/null 2>&1
+  # Install Golang
+  - wget https://go.dev/dl/go1.22.0.linux-amd64.tar.gz -O golang.tar.gz > /dev/null 2>&1
+  - tar -C /usr/local -xzf golang.tar.gz > /dev/null 2>&1
+  - export PATH=$PATH:/usr/local/go/bin > /dev/null 2>&1
+  - rm -rf golang.tar.gz
+  # Install OpenTofu (Terraform Lite)
+  - wget https://github.com/opentofu/opentofu/releases/download/v1.6.2/tofu_1.6.2_amd64.apk -O tofu.apk > /dev/null 2>&1
+  - apk add --no-cache --allow-untrusted tofu.apk > /dev/null 2>&1
+  - rm -rf tofu.apk
+  # AWS Environment Variables
+  - export AWS_DEFAULT_REGION=us-east-1 > /dev/null 2>&1
+  - export AWS_ACCOUNT_ID=107843850379 > /dev/null 2>&1
+  - export AWS_SECRET_MANAGER=arn:aws:secretsmanager:us-east-1:107843850379:secret:/Prd/DevOps/Terraform-qUBjmy > /dev/null 2>&1
+  - export AWS_SECRET_MANAGER=$(aws secretsmanager get-secret-value --secret-id $AWS_SECRET_MANAGER --query SecretString --output text) > /dev/null 2>&1
+  - export AWS_ACCESS_KEY=$(echo $AWS_SECRET_MANAGER | grep -o '"access_key_id":"[^"]*' | grep -o '[^"]*$') > /dev/null 2>&1
+  - export AWS_SECRET_ACCESS_KEY=$(echo $AWS_SECRET_MANAGER | grep -o '"secret_access_key":"[^"]*' | grep -o '[^"]*$') > /dev/null 2>&1
+  # Install Trivy
+  - export TRIVY_VERSION=$(wget -qO - "https://api.github.com/repos/aquasecurity/trivy/releases/latest" | grep '"tag_name":' | sed -E 's/.*"v([^"]+)".*/\1/') > /dev/null 2>&1
+  - wget --no-verbose https://github.com/aquasecurity/trivy/releases/download/v${TRIVY_VERSION}/trivy_${TRIVY_VERSION}_Linux-64bit.tar.gz -O trivy.tar.gz > /dev/null 2>&1
+  - tar -zxvf trivy.tar.gz > /dev/null 2>&1
+  - mv trivy /usr/local/bin > /dev/null 2>&1
+  - rm -rf trivy.tar.gz > /dev/null 2>&1
+  

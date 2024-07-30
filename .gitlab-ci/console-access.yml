@@ -1,0 +1,35 @@
+image: docker:latest
+
+include:
+  - '/.gitlab-ci/docker-service.yml'
+  - '/.gitlab-ci/before-script.yml'
+
+stages:
+  - enable
+  - disable
+
+enable:
+  stage: enable
+  needs: []
+  variables:
+    TS_MANAGEMENT_ACTION: Console Access - Enable
+  script:
+    - cd terrashell/src && go run ./main.go && cd ../..
+  artifacts:
+    paths:
+      - ./consoleAccess.csv
+    expire_in: 1 day
+  when: manual
+
+disable:
+  stage: disable
+  needs: []
+  variables:
+    TS_MANAGEMENT_ACTION: Console Access - Disable
+  script:
+    - cd terrashell/src && go run ./main.go && cd ../..
+  artifacts:
+    paths:
+      - ./consoleAccess.csv
+    expire_in: 1 day
+  when: manual

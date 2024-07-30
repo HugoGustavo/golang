@@ -1,0 +1,35 @@
+image: docker:latest
+
+include:
+  - '/.gitlab-ci/docker-service.yml'
+  - '/.gitlab-ci/before-script.yml'
+
+stages:
+  - add-user
+  - remove-user
+
+add-user:
+  stage: add-user
+  needs: []
+  variables:
+    TS_MANAGEMENT_ACTION: Group - Add user
+  script:
+    - cd terrashell/src && go run ./main.go && cd ../..
+  artifacts:
+    paths:
+      - ./group.csv
+    expire_in: 1 day
+  when: manual
+
+remove-user:
+  stage: remove-user
+  needs: []
+  variables:
+    TS_MANAGEMENT_ACTION: Group - Remove user
+  script:
+    - cd terrashell/src && go run ./main.go && cd ../..
+  artifacts:
+    paths:
+      - ./group.csv
+    expire_in: 1 day
+  when: manual
