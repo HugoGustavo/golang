@@ -21,7 +21,7 @@ Build:
   stage: Build
   needs: []
   trigger:
-    strategy: depend
+    strategy: depend # test
     include:
       - local: '/.gitlab-ci/build.yml'
   rules:
